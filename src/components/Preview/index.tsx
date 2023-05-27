@@ -16,18 +16,15 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
-const Markdown = styled<
-  React.ForwardRefExoticComponent<MarkdownPreviewProps & { loading?: string } & React.RefAttributes<MarkdownPreviewRef>>
->(MarkdownPreview)`
-  padding: 20px 30px 120px 30px;
-  max-width: 1336px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: minmax(0, 3.5fr) 240px;
-  grid-template-areas: 'main toc';
+const Markdown = styled<React.ForwardRefExoticComponent<MarkdownPreviewProps & { loading?: string } & React.RefAttributes<MarkdownPreviewRef>>>(MarkdownPreview)`
   &::after,
   &::before {
     content: none;
+  }
+  h1{
+    position:sticky;
+    top:0px;
+    background-color: var(--color-canvas-default);
   }
 `;
 
@@ -90,7 +87,6 @@ const PreviewDocument = ({ path }: { path: MdDataHandle }) => {
             }
           }
         }}
-
       />
     </Wrapper>
   );

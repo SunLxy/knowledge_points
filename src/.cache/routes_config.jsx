@@ -10,4 +10,5 @@ export default [
 	{ path:"/html/basic",element:<Preview path={()=>import("@/pages/html/basic/index.md")} /> },
 	{ path:"/html/h5",element:<Preview path={()=>import("@/pages/html/h5/index.md")} /> },
 	{ path:"/react/basic",element:<Preview path={()=>import("@/pages/react/basic/index.md")} /> },
-	{ path:"/react/advanced",element:<Preview path={()=>import("@/pages/react/advanced/index.md")} /> },];
+	{ path:"/react/advanced",element:<Preview path={()=>import("@/pages/react/advanced/index.md")} /> },
+	{ path:"/",element:<Preview path={()=>import("@/pages/index.md")} /> },];
