@@ -9,6 +9,9 @@ yarn-error
 yarn.lock
 .cache
 
+dist
+build
+
 # testing
 /coverage
 
