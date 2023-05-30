@@ -29,7 +29,7 @@ export const menus = [
       { name: "进阶", path: "/react/advanced" },
     ]
   },
-  { name: "react-native" },
-  { name: "electron" },
-  { name: "小程序" },
+  { name: "react-native", path: "/react-native" },
+  { name: "electron", path: "/electron" },
+  { name: "小程序", path: "/miniprogram" },
 ]
