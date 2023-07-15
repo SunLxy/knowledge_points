@@ -1,10 +1,9 @@
 import styled, { css } from "styled-components";
-import { useRoutes, RouteObject, Outlet, } from 'react-router';
+import { Outlet, } from 'react-router';
 import { NavLink } from "react-router-dom"
 import { menus } from "./config"
 import { useCallback } from "react";
-import RouterConfig from "@/.cache/routes_config"
-const config: RouteObject[] = [...RouterConfig];
+import "./index.css"
 
 const MenuWarpBase = styled.div`
   width: 200px;
@@ -96,11 +95,9 @@ const ContentBase = styled.div`
   overflow-y: auto;
 `
 const Warp = () => {
-  const render = useRoutes(config);
   return <WarpBase>
     <Menu />
     <ContentBase>
-      {render}
       <Outlet />
     </ContentBase>
   </WarpBase>

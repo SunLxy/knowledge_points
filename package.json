@@ -10,14 +10,15 @@
     "@uiw/react-markdown-preview": "^4.1.10",
     "react-code-preview-layout": "~3.0.0",
     "styled-components": "^5.3.10",
-    "@saqu/loader-md-react-preview": "~0.1.1"
+    "@saqu/loader-md-react-preview": "~0.1.4"
   },
   "devDependencies": {
+    "@saqu/auto-create-enter": "^0.1.4",
     "@types/styled-components": "^5.1.26",
-    "@saqu/auto-create-routes": "~0.1.1",
+    "@saqu/auto-create-routes": "~0.1.4",
     "@types/react": "^18.0.33",
     "@types/react-dom": "^18.0.11",
-    "saqu": "~0.1.1"
+    "saqu": "~0.1.4"
   },
   "scripts": {
     "start": "saqu start",
