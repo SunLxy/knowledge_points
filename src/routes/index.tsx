@@ -3,7 +3,6 @@ import { Outlet, } from 'react-router';
 import { NavLink } from "react-router-dom"
 import { menus } from "./config"
 import { useCallback } from "react";
-import "./index.css"
 
 const MenuWarpBase = styled.div`
   width: 200px;
