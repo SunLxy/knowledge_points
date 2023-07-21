@@ -7,10 +7,10 @@ export default defineConfig({
   plugins: [
     new autoCreateRoutes({
       rootRoutes: "@/routes",
-      presetsImport: `import Preview from "@/components/Preview";`,
+      presetsImport: `import { SimplePreview } from "simple-markdown-preview";`,
       fileExt: "md",// 直接加载 md 文件
       renderConfig: ({ pathName, oFilePath }) => {
-        return { configStr: `\t{ path:"${pathName}",element:<Preview path={()=>import("${oFilePath}")} /> },\n` }
+        return { configStr: `\t{ path:"${pathName}",element:<SimplePreview path={()=>import("${oFilePath}")} /> },\n` }
       }
     }),
     new autoCreateEnter()
