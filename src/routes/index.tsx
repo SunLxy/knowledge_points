@@ -69,7 +69,7 @@ const Menu = (props: { menus: MenuConfig[] }) => {
   const { menus } = props
 
   const renderMenu = useCallback((childList: MenuConfig[], isChild: boolean = false) => {
-    return childList.map((item, index) => {
+    return childList.sort((a, b) => Number(a?.sort || 0) - Number(b?.sort || 0)).map((item, index) => {
       if (item.children) {
         return <MenuBase key={index}>
           <MenuItemTitleBase>{item.name}</MenuItemTitleBase>

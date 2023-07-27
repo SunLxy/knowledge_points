@@ -14,9 +14,14 @@ const getFormatPath = (pathName: string) => {
   let sortIndex = 0
   list.forEach((item, index) => {
     const [sort, first, end] = item.split("_")
-    newList.push(first)
+    // 判断 first 是否存在，不存在，则取值第一个
+    if (first) {
+      newList.push(first)
+    } else {
+      newList.push(sort)
+    }
     if ((lg - 1) === index) {
-      lastName = end || first
+      lastName = end || first || sort
       if (/[0-9]+/.test(sort || '')) {
         sortIndex = Number((sort || "0"))
       } else {
