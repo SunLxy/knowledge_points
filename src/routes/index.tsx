@@ -3,6 +3,8 @@ import { Outlet, } from 'react-router';
 import { NavLink } from "react-router-dom"
 import { menus } from "./config"
 import { useCallback } from "react";
+// @ts-ignore
+import routes_config from "@/.cache/routes_config"
 
 const MenuWarpBase = styled.div`
   width: 200px;
@@ -19,7 +21,7 @@ const MenuChildBase = styled.div`
   font-size: 18px;
 `
 
-const MenuItemLinkBase = styled(NavLink) <{ isChild: boolean }>`
+const MenuItemLinkBase = styled(NavLink) <{ ischild: string }>`
   display: block;
   text-decoration: none;
   font-size: 18px;
@@ -28,7 +30,7 @@ const MenuItemLinkBase = styled(NavLink) <{ isChild: boolean }>`
   line-height: 35px;
   border-radius: 3px;
   transition:all 300ms;
-  ${props => !props.isChild && css`
+  ${props => props.ischild === "false" && css`
     font-weight: 600;
   `}
   &.active {
@@ -68,7 +70,7 @@ const Menu = () => {
         </MenuBase>
       }
       if (item.path) {
-        return <MenuItemLinkBase isChild={isChild} key={index} to={item.path} >{item.name}</MenuItemLinkBase>
+        return <MenuItemLinkBase ischild={`${isChild}`} key={index} to={item.path} >{item.name}</MenuItemLinkBase>
       }
       return <MenuItemTitleBase key={index}>{item.name}</MenuItemTitleBase>
     })
@@ -94,6 +96,7 @@ const ContentBase = styled.div`
   overflow-y: auto;
 `
 const Warp = () => {
+  console.log("routes_config", routes_config)
   return <WarpBase>
     <Menu />
     <ContentBase>

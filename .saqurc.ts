@@ -1,16 +1,51 @@
 import { defineConfig } from 'saqu';
 import autoCreateRoutes from '@saqu/auto-create-routes';
 import autoCreateEnter from "@saqu/auto-create-enter"
+import authCreateTree from "@saqu/auto-create-tree-routes"
+
+/**
+ * 对数据进行分组
+*/
+const getFormatPath = (pathName: string) => {
+  // 先分组数据
+  const list = pathName.split("/")
+  const lg = list.length
+  const newList: string[] = []
+  let lastName = ''
+  let sortIndex = 0
+  list.forEach((item, index) => {
+    const [sort, first, end] = item.split("_")
+    newList.push(first)
+    if ((lg - 1) === index) {
+      lastName = end || first
+      if (/[0-9]+/.test(sort || '')) {
+        sortIndex = Number((sort || "0"))
+      } else {
+        sortIndex = 0
+      }
+    }
+  })
+  return {
+    name: lastName || "首页",
+    path: newList.join("/"),
+    sortIndex,
+  }
+}
 
 export default defineConfig({
   entry: '!src/.cache/main.jsx',
   plugins: [
-    new autoCreateRoutes({
+    new authCreateTree({
       rootRoutes: "@/routes",
       presetsImport: `import { SimplePreview } from "simple-markdown-preview";`,
       fileExt: "md",// 直接加载 md 文件
+      renderParent: (pathName) => {
+        const { name, path, sortIndex } = getFormatPath(pathName)
+        return { path: path, configStr: `name:"${name}",sort:${sortIndex}` }
+      },
       renderConfig: ({ pathName, oFilePath }) => {
-        return { configStr: `\t{ path:"${pathName}",element:<SimplePreview path={()=>import("${oFilePath}")} /> },\n` }
+        const { name, path, sortIndex } = getFormatPath(pathName)
+        return { configStr: `\t{ path:"${path}",name:"${name}",sort:${sortIndex}, element:<SimplePreview path={()=>import("${oFilePath}")} /> },\n` }
       }
     }),
     new autoCreateEnter()
