@@ -1,10 +1,16 @@
 import styled, { css } from "styled-components";
-import { Outlet, } from 'react-router';
+import { Outlet, RouteObject } from 'react-router';
 import { NavLink } from "react-router-dom"
-import { menus } from "./config"
 import { useCallback } from "react";
 // @ts-ignore
 import routes_config from "@/.cache/routes_config"
+
+/**菜单配置*/
+type MenuConfig = RouteObject & {
+  name?: string
+  sort?: number,
+  children?: MenuConfig[]
+}
 
 const MenuWarpBase = styled.div`
   width: 200px;
@@ -58,8 +64,11 @@ const MenuItemTitleBase = styled.div`
 
 const MenuBase = styled.div``
 
-const Menu = () => {
-  const renderMenu = useCallback((childList: typeof menus, isChild: boolean = false) => {
+const Menu = (props: { menus: MenuConfig[] }) => {
+
+  const { menus } = props
+
+  const renderMenu = useCallback((childList: MenuConfig[], isChild: boolean = false) => {
     return childList.map((item, index) => {
       if (item.children) {
         return <MenuBase key={index}>
@@ -96,9 +105,12 @@ const ContentBase = styled.div`
   overflow-y: auto;
 `
 const Warp = () => {
-  console.log("routes_config", routes_config)
+
+  const [itemData] = routes_config || []
+  const { children: menus = [] } = itemData || {}
+
   return <WarpBase>
-    <Menu />
+    <Menu menus={menus} />
     <ContentBase>
       <Outlet />
     </ContentBase>

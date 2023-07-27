@@ -1,5 +1,4 @@
 import { defineConfig } from 'saqu';
-import autoCreateRoutes from '@saqu/auto-create-routes';
 import autoCreateEnter from "@saqu/auto-create-enter"
 import authCreateTree from "@saqu/auto-create-tree-routes"
 
@@ -39,10 +38,12 @@ export default defineConfig({
       rootRoutes: "@/routes",
       presetsImport: `import { SimplePreview } from "simple-markdown-preview";`,
       fileExt: "md",// 直接加载 md 文件
+      /**处理父级菜单数据*/
       renderParent: (pathName) => {
         const { name, path, sortIndex } = getFormatPath(pathName)
         return { path: path, configStr: `name:"${name}",sort:${sortIndex}` }
       },
+      /**处理子集菜单数据*/
       renderConfig: ({ pathName, oFilePath }) => {
         const { name, path, sortIndex } = getFormatPath(pathName)
         return { configStr: `\t{ path:"${path}",name:"${name}",sort:${sortIndex}, element:<SimplePreview path={()=>import("${oFilePath}")} /> },\n` }
