@@ -9,9 +9,9 @@
     "react-router-dom": "6.10.0",
     "@uiw/react-markdown-preview": "^4.1.10",
     "react-code-preview-layout": "~3.0.0",
-    "styled-components": "^5.3.10",
+    "styled-components": "^6.0.5",
     "@saqu/loader-md-react-preview": "~0.1.14",
-    "simple-markdown-preview": "~0.0.3",
+    "simple-markdown-preview": "~0.0.4",
     "@carefrees/simple-menu": "~0.0.1"
   },
   "devDependencies": {
