@@ -106,3 +106,12 @@ html,
   /* padding: 0px; */
   padding-top: 16px;
 }
+
+.carefrees-menu {
+  width: 150px;
+  overflow: auto;
+  margin-right: 15px;
+}
+.carefrees-menu-item-title {
+  color: var(--color-fg-default);
+}
