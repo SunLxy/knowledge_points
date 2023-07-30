@@ -11,8 +11,8 @@
     "react-code-preview-layout": "~3.0.0",
     "styled-components": "^6.0.5",
     "@saqu/loader-md-react-preview": "~0.1.14",
-    "simple-markdown-preview": "~0.0.5",
-    "@carefrees/simple-menu": "~0.0.1"
+    "simple-markdown-preview": "~0.0.6",
+    "@carefrees/simple-menu": "~0.0.2"
   },
   "devDependencies": {
     "@saqu/auto-create-tree-routes": "~0.1.14",

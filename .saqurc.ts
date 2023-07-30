@@ -41,7 +41,7 @@ export default defineConfig({
   plugins: [
     new authCreateTree({
       rootRoutes: "@/routes",
-      presetsImport: `import { SimplePreview } from "simple-markdown-preview";`,
+      presetsImport: `import { SimplePreview } from "simple-markdown-preview";\nimport { useSimplePreview } from "@/routes/rightMenu"`,
       fileExt: "md",// 直接加载 md 文件
       /**处理父级菜单数据*/
       renderParent: (pathName) => {
@@ -51,7 +51,7 @@ export default defineConfig({
       /**处理子集菜单数据*/
       renderConfig: ({ pathName, oFilePath }) => {
         const { name, path, sortIndex } = getFormatPath(pathName)
-        return { configStr: `\t{ path:"${path}",name:"${name}",sort:${sortIndex}, element:<SimplePreview path={()=>import("${oFilePath}")} /> },\n` }
+        return { configStr: `\t{ path:"${path}",name:"${name}",sort:${sortIndex}, element:<SimplePreview useSimplePreview={useSimplePreview} path={()=>import("${oFilePath}")} /> },\n` }
       }
     }),
     new autoCreateEnter()
@@ -60,7 +60,12 @@ export default defineConfig({
     rules: [
       {
         test: /\.md$/,
-        use: "@saqu/loader-md-react-preview",
+        use: [
+          {
+            loader: '@saqu/loader-md-react-preview',
+            options: { isHeading: true },
+          },
+        ],
         type: 'typescript',
       },
     ],
