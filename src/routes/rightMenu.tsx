@@ -13,11 +13,13 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
   const { children = [] } = firstItem || {}
 
   const onChange = (item: any) => {
-    const $dom = $domRef.current.querySelector("#知识点2")
-    if ($dom) {
-      const { top: parentTop = 0 } = $domRef.current.getBoundingClientRect()
-      const { top } = $dom.getBoundingClientRect()
-      $domRef.current.scrollTo({ behavior: "smooth", top: top - parentTop })
+    if (item && item.value) {
+      const $dom = $domRef.current.querySelector(`#${item.value}`)
+      if ($dom) {
+        const { top: parentTop = 0 } = $domRef.current.getBoundingClientRect()
+        const { top } = $dom.getBoundingClientRect()
+        $domRef.current.scrollTo({ behavior: "smooth", top: top - parentTop })
+      }
     }
   }
 
