@@ -37,6 +37,9 @@ const getFormatPath = (pathName: string) => {
 }
 
 export default defineConfig({
+  output: {
+    publicPath: "./"
+  },
   entry: '!src/.cache/main.jsx',
   plugins: [
     new authCreateTree({
