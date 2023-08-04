@@ -42,7 +42,7 @@ export default defineConfig({
   },
   builtins: {
     minifyOptions: {
-      dropConsole: true
+      dropConsole: false
     }
   },
   entry: '!src/.cache/main.jsx',
