@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { Outlet, useNavigate } from 'react-router';
+import { Outlet, useNavigate, useLocation } from 'react-router';
 import SimpleMenu from "@carefrees/simple-menu"
+
 import { useMemo } from "react";
 // @ts-ignore
 import routes_config from "@/.cache/routes_config"
@@ -23,7 +24,9 @@ const Warp = () => {
   const [itemData] = routes_config || []
   const { children: menus = [] } = itemData || {}
 
+
   const navigate = useNavigate()
+  const location = useLocation()
 
   const onChange = (item: any) => {
     if (item?.path && !item?.isSubMenu) {
@@ -31,7 +34,7 @@ const Warp = () => {
     }
   }
   const render = useMemo(() => {
-    return <SimpleMenu onChange={onChange} items={menus} labelKey="name" />
+    return <SimpleMenu initialValue={location.pathname} onChange={onChange} items={menus} labelKey="name" />
   }, [menus])
 
   return <WarpBase>

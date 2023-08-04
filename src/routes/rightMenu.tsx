@@ -20,36 +20,72 @@ const getAnchor = (search: string) => {
   return anchor
 }
 
+interface ListDOMType {
+  value: string;
+  $dom: Element | null
+}
+
 
 export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) => {
   const { mdData, $domRef } = props
-
+  const location = useLocation()
+  const navigate = useNavigate()
   const [menuStore] = useMenuStore()
+  const { headings = [], headingsList } = mdData || {}
+  const refListDom = useRef<ListDOMType[]>([])
+  const timerRef = useRef<NodeJS.Timeout>()
+  const refStore = useRef({ headingsList, menuStore })
+  refStore.current = {
+    headingsList,
+    menuStore
+  }
 
-  const { headings = [] } = mdData || {}
+  useEffect(() => {
+    let timer: any;
+    clearTimeout(timer)
+    if (Array.isArray(headingsList) && headingsList.length && $domRef.current) {
+      timer = setTimeout(() => {
+        let list: ListDOMType[] = []
+        headingsList.map((item) => {
+          const $dom = $domRef.current.querySelector(`#${item.value}`)
+          if ($dom) {
+            list.push({
+              value: item.value,
+              $dom
+            })
+          }
+        })
+        refListDom.current = list
+      }, 300)
+    }
+    return () => {
+      clearTimeout(timer)
+    }
+
+  }, [headingsList, $domRef.current])
+
 
   const [firstItem] = headings || []
 
   const { children = [] } = firstItem || {}
-  const location = useLocation()
-  const navigate = useNavigate()
-  const s = useRef()
+
 
   const anchor = useMemo(() => {
     if (location.search) {
-
       return getAnchor(location.search)
     }
     return undefined
   }, [location.search])
 
+
   const scrollTo = (anchor: string) => {
     try {
       const $dom = $domRef.current.querySelector(`#${anchor}`)
       if ($dom) {
-        const { top: parentTop = 0 } = $domRef.current.getBoundingClientRect()
-        const { top } = $dom.getBoundingClientRect()
-        $domRef.current.scrollTo({ behavior: "smooth", top: top - parentTop })
+        // const { top: parentTop = 0 } = $domRef.current.getBoundingClientRect()
+        // const { top } = $dom.getBoundingClientRect()
+        const offsetTop = ($dom as any).offsetTop
+        $domRef.current.scrollTo({ behavior: "smooth", top: offsetTop })
         menuStore.updateValue(anchor)
       }
     } catch (err) {
@@ -68,11 +104,47 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
     return () => {
       clearTimeout(timer)
     }
-  }, [anchor])
+  }, [location.search, anchor])
+
+  const onScroll = (event: any) => {
+    const scrollTop = event.target.scrollTop
+    // console.log("===============================>")
+    // console.log("scrollTop===>", scrollTop)
+    clearTimeout(timerRef.current)
+    const parentTop = $domRef.current.getBoundingClientRect().top;
+    const lg = (refStore.current.headingsList || []).length
+    let nextIndex = 0
+    let index = 0
+    for (index; index < lg; index++) {
+      const item = refStore.current.headingsList[index];
+      const $dom = $domRef.current.querySelector(`#${item.value}`)
+      const offsetTop = ($dom as any).offsetTop;
+
+      if (scrollTop >= (offsetTop - parentTop) || scrollTop >= (offsetTop + parentTop)) {
+        nextIndex = index
+      }
+    }
+    const preValue = refStore.current.menuStore.getValue()
+    let item = refStore.current.headingsList[nextIndex > 0 ? nextIndex : 1]
+    if (item && item.value !== preValue) {
+      timerRef.current = setTimeout(() => {
+        refStore.current.menuStore.updateValue(item.value)
+        /**替换url地址*/
+        window.history.replaceState(undefined, document.title, location.pathname + `?anchor=${item.value}`)
+      }, 100)
+    }
+  }
+
+  useEffect(() => {
+    $domRef.current.addEventListener("scroll", onScroll)
+    return () => {
+      $domRef.current.removeEventListener("scroll", onScroll)
+    }
+  }, [$domRef.current])
 
   const onChange = (item: any) => {
     if (item && item.value) {
-      navigate(location.pathname + `?anchor=${item.value}`, { replace: true })
+      navigate(location.pathname + `?anchor=${item.value}`, { replace: true, state: null })
     }
   }
 

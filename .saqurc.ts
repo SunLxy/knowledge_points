@@ -43,6 +43,7 @@ export default defineConfig({
   entry: '!src/.cache/main.jsx',
   plugins: [
     new authCreateTree({
+
       rootRoutes: "@/routes",
       presetsImport: `import { SimplePreview } from "simple-markdown-preview";\nimport { useSimplePreview } from "@/routes/rightMenu"`,
       fileExt: "md",// 直接加载 md 文件
@@ -57,7 +58,9 @@ export default defineConfig({
         return { configStr: `\t{ path:"${path}",name:"${name}",sort:${sortIndex}, element:<SimplePreview useSimplePreview={useSimplePreview} path={()=>import("${oFilePath}")} /> },\n` }
       }
     }),
-    new autoCreateEnter()
+    new autoCreateEnter({
+      routeType: "Browser"
+    })
   ],
   module: {
     rules: [
