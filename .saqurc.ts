@@ -58,9 +58,7 @@ export default defineConfig({
         return { configStr: `\t{ path:"${path}",name:"${name}",sort:${sortIndex}, element:<SimplePreview useSimplePreview={useSimplePreview} path={()=>import("${oFilePath}")} /> },\n` }
       }
     }),
-    new autoCreateEnter({
-      routeType: "Browser"
-    })
+    new autoCreateEnter()
   ],
   module: {
     rules: [
