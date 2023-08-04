@@ -103,8 +103,9 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
     if (item && item.value !== preValue) {
       timerRef.current = setTimeout(() => {
         refStore.current.menuStore.updateValue(item.value)
+        const urls = window.location.pathname + (window.location.hash || "/#/")
         /**替换url地址*/
-        window.history.replaceState(undefined, document.title, location.pathname + `?anchor=${item.value}`)
+        window.history.replaceState(undefined, document.title, urls + `?anchor=${item.value}`)
       }, 100)
     }
   }
@@ -120,7 +121,7 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
 
   const onChange = (item: any) => {
     if (item && item.value) {
-      navigate(location.pathname + `?anchor=${item.value}`, { replace: true, state: null })
+      navigate(location.pathname + `?anchor=${item.value}`, { replace: true })
     }
   }
 
