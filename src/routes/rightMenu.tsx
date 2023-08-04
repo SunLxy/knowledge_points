@@ -32,7 +32,6 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
   const navigate = useNavigate()
   const [menuStore] = useMenuStore()
   const { headings = [], headingsList } = mdData || {}
-  const refListDom = useRef<ListDOMType[]>([])
   const timerRef = useRef<NodeJS.Timeout>()
   const refStore = useRef({ headingsList, menuStore })
   refStore.current = {
@@ -51,8 +50,6 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
     }
     return undefined
   }, [location.search])
-
-  console.log("location===>", location, window.location)
 
   const scrollTo = (anchor: string) => {
     try {
@@ -82,8 +79,6 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
 
   const onScroll = (event: any) => {
     const scrollTop = event.target.scrollTop
-    // console.log("===============================>")
-    // console.log("scrollTop===>", scrollTop)
     clearTimeout(timerRef.current)
     const parentTop = $domRef.current.getBoundingClientRect().top;
     const lg = (refStore.current.headingsList || []).length
@@ -103,11 +98,9 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
     if (item && item.value !== preValue) {
       timerRef.current = setTimeout(() => {
         refStore.current.menuStore.updateValue(item.value)
-        // const urls = window.location.pathname.replace(/\/$/, "") + "/" + ((window.location.hash || "/#/").replace(/^\//, ''))
-        console.log("urls", window.location)
-        // window.location.assign(urls + `?anchor=${item.value}`)
+        const pathname = window.location.pathname.replace(/\/$/, "") + "/#/" + ((location.pathname).replace(/^\//, ''))
         /**替换url地址*/
-        // window.history.replaceState(undefined, document.title, urls + `?anchor=${item.value}`)
+        window.history.replaceState(undefined, document.title, pathname + `?anchor=${item.value}&time=${new Date().getTime()}`)
       }, 100)
     }
   }
@@ -123,7 +116,7 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
 
   const onChange = (item: any) => {
     if (item && item.value) {
-      navigate(location.pathname + `?anchor=${item.value}`, { replace: true })
+      navigate(location.pathname + `?anchor=${item.value}&time=${new Date().getTime()}`, { replace: true })
     }
   }
 
