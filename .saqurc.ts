@@ -40,11 +40,11 @@ export default defineConfig({
   output: {
     publicPath: "./"
   },
-  builtins: {
-    minifyOptions: {
-      dropConsole: false
-    }
-  },
+  // builtins: {
+  //   minifyOptions: {
+  //     dropConsole: false
+  //   }
+  // },
   entry: '!src/.cache/main.jsx',
   plugins: [
     new authCreateTree({

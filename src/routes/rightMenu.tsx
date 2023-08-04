@@ -121,7 +121,6 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
   useEffect(() => {
     if ($domRef.current && menuStore && Array.isArray(headingsList) && headingsList.length) {
       const finx = headingsList.find(ite => ite.depth === 2)
-      console.log(headingsList, finx)
       if (finx) {
         menuStore.updateValue(finx.value)
         replaceState(finx.value)
