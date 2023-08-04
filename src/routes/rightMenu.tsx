@@ -40,31 +40,6 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
     menuStore
   }
 
-  useEffect(() => {
-    let timer: any;
-    clearTimeout(timer)
-    if (Array.isArray(headingsList) && headingsList.length && $domRef.current) {
-      timer = setTimeout(() => {
-        let list: ListDOMType[] = []
-        headingsList.map((item) => {
-          const $dom = $domRef.current.querySelector(`#${item.value}`)
-          if ($dom) {
-            list.push({
-              value: item.value,
-              $dom
-            })
-          }
-        })
-        refListDom.current = list
-      }, 300)
-    }
-    return () => {
-      clearTimeout(timer)
-    }
-
-  }, [headingsList, $domRef.current])
-
-
   const [firstItem] = headings || []
 
   const { children = [] } = firstItem || {}
@@ -80,12 +55,10 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
 
   const scrollTo = (anchor: string) => {
     try {
-      const $dom = $domRef.current.querySelector(`#${anchor}`)
+      const $dom = $domRef.current?.querySelector(`#${anchor}`)
       if ($dom) {
-        // const { top: parentTop = 0 } = $domRef.current.getBoundingClientRect()
-        // const { top } = $dom.getBoundingClientRect()
         const offsetTop = ($dom as any).offsetTop
-        $domRef.current.scrollTo({ behavior: "smooth", top: offsetTop })
+        $domRef.current?.scrollTo({ behavior: "smooth", top: offsetTop })
         menuStore.updateValue(anchor)
       }
     } catch (err) {
@@ -136,9 +109,11 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
   }
 
   useEffect(() => {
-    $domRef.current.addEventListener("scroll", onScroll)
+    if ($domRef.current)
+      $domRef.current.addEventListener("scroll", onScroll)
     return () => {
-      $domRef.current.removeEventListener("scroll", onScroll)
+      if ($domRef.current)
+        $domRef.current.removeEventListener("scroll", onScroll)
     }
   }, [$domRef.current])
 
