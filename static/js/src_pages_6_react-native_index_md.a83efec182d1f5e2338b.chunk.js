@@ -1,0 +1,1 @@
+(self.webpackChunkknowledge_points=self.webpackChunkknowledge_points||[]).push([["src_pages_6_react-native_index_md"],{64493:function(e,n,t){"use strict";t.r(n),t.d(n,{default:function(){return a}});var a={components:{},data:{},source:"# react-native\n",headings:[{depth:1,value:"react-native"}],headingsList:[{depth:1,value:"react-native"}]}}}]);

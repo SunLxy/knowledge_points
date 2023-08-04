@@ -1,1 +1,0 @@
-(self.webpackChunkknowledge_points=self.webpackChunkknowledge_points||[]).push([["src_pages_3_javascript_1_advanced__index_md"],{48294:function(e,n,a){"use strict";a.r(n),a.d(n,{default:function(){return s}});var s={components:{},data:{},source:"# 进阶\n\n",headings:[{depth:1,value:"进阶"}]}}}]);

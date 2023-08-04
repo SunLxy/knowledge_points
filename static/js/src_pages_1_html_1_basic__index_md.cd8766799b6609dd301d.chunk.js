@@ -1,0 +1,1 @@
+(self.webpackChunkknowledge_points=self.webpackChunkknowledge_points||[]).push([["src_pages_1_html_1_basic__index_md"],{29844:function(e,n,t){"use strict";t.r(n),t.d(n,{default:function(){return s}});var s={components:{},data:{},source:"# html 基础\n",headings:[{depth:1,value:"html 基础"}],headingsList:[{depth:1,value:"html 基础"}]}}}]);
