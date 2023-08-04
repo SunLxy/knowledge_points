@@ -52,7 +52,7 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
     return undefined
   }, [location.search])
 
-  console.log("location", location, window.location)
+  console.log("location===>", location, window.location)
 
   const scrollTo = (anchor: string) => {
     try {
@@ -103,9 +103,11 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
     if (item && item.value !== preValue) {
       timerRef.current = setTimeout(() => {
         refStore.current.menuStore.updateValue(item.value)
-        const urls = window.location.pathname + (window.location.hash || "/#/")
+        // const urls = window.location.pathname.replace(/\/$/, "") + "/" + ((window.location.hash || "/#/").replace(/^\//, ''))
+        console.log("urls", window.location)
+        // window.location.assign(urls + `?anchor=${item.value}`)
         /**替换url地址*/
-        window.history.replaceState(undefined, document.title, urls + `?anchor=${item.value}`)
+        // window.history.replaceState(undefined, document.title, urls + `?anchor=${item.value}`)
       }, 100)
     }
   }
