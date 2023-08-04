@@ -52,6 +52,7 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
     return undefined
   }, [location.search])
 
+  console.log("location", location, window.location)
 
   const scrollTo = (anchor: string) => {
     try {
