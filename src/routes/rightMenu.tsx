@@ -64,6 +64,12 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
     }
   }
 
+  const replaceState = (value: string) => {
+    const pathname = window.location.pathname.replace(/\/$/, "") + "/#/" + ((location.pathname).replace(/^\//, ''))
+    /**替换url地址*/
+    window.history.replaceState(undefined, document.title, pathname + `?anchor=${value}&time=${new Date().getTime()}`)
+  }
+
   useEffect(() => {
     let timer: any;
     if (anchor) {
@@ -98,9 +104,7 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
     if (item && item.value !== preValue) {
       timerRef.current = setTimeout(() => {
         refStore.current.menuStore.updateValue(item.value)
-        const pathname = window.location.pathname.replace(/\/$/, "") + "/#/" + ((location.pathname).replace(/^\//, ''))
-        /**替换url地址*/
-        window.history.replaceState(undefined, document.title, pathname + `?anchor=${item.value}&time=${new Date().getTime()}`)
+        replaceState(item.value)
       }, 100)
     }
   }
@@ -113,6 +117,17 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
         $domRef.current.removeEventListener("scroll", onScroll)
     }
   }, [$domRef.current])
+
+  useEffect(() => {
+    if ($domRef.current && menuStore && Array.isArray(headingsList) && headingsList.length) {
+      const finx = headingsList.find(ite => ite.depth === 2)
+      console.log(headingsList, finx)
+      if (finx) {
+        menuStore.updateValue(finx.value)
+        replaceState(finx.value)
+      }
+    }
+  }, [$domRef.current, headingsList])
 
   const onChange = (item: any) => {
     if (item && item.value) {
