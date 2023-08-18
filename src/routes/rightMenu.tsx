@@ -5,6 +5,15 @@ import { useMenuStore } from "@carefrees/simple-menu/lib/store"
 import { useLocation, useNavigate } from "react-router-dom"
 import { useEffect, useMemo, useRef } from "react"
 
+const toLowerCase = (anchor: string) => {
+  if (!anchor) {
+    return anchor
+  }
+  return `${anchor}`.replace(/[\.\/]/g, "")
+    .split(" ").join("-").split("")
+    .map((ite) => ite.toLowerCase()).join("")
+}
+
 const getAnchor = (search: string) => {
   const newSearch = decodeURIComponent(search).replace(/^\?/, "").split("&").filter(Boolean)
   let anchor: string | undefined = undefined
@@ -17,6 +26,10 @@ const getAnchor = (search: string) => {
       break;
     }
   }
+  if (anchor) {
+    return toLowerCase(anchor)
+  }
+
   return anchor
 }
 
@@ -24,7 +37,6 @@ interface ListDOMType {
   value: string;
   $dom: Element | null
 }
-
 
 export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) => {
   const { mdData, $domRef } = props
@@ -52,6 +64,7 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
   }, [location.search])
 
   const scrollTo = (anchor: string) => {
+    console.log("anchor", anchor)
     try {
       const $dom = $domRef.current?.querySelector(`#${anchor}`)
       if ($dom) {
@@ -65,9 +78,10 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
   }
 
   const replaceState = (value: string) => {
+    const newValue = toLowerCase(value)
     const pathname = window.location.pathname.replace(/\/$/, "") + "/#/" + ((location.pathname).replace(/^\//, ''))
     /**替换url地址*/
-    window.history.replaceState(undefined, document.title, pathname + `?anchor=${value}&time=${new Date().getTime()}`)
+    window.history.replaceState(undefined, document.title, pathname + `?anchor=${newValue}&time=${new Date().getTime()}`)
   }
 
   useEffect(() => {
@@ -84,29 +98,37 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
   }, [location.search, anchor])
 
   const onScroll = (event: any) => {
-    const scrollTop = event.target.scrollTop
-    clearTimeout(timerRef.current)
-    const parentTop = $domRef.current.getBoundingClientRect().top;
-    const lg = (refStore.current.headingsList || []).length
-    let nextIndex = 0
-    let index = 0
-    for (index; index < lg; index++) {
-      const item = refStore.current.headingsList[index];
-      const $dom = $domRef.current.querySelector(`#${item.value}`)
-      const offsetTop = ($dom as any).offsetTop;
-
-      if (scrollTop >= (offsetTop - parentTop) || scrollTop >= (offsetTop + parentTop)) {
-        nextIndex = index
+    try {
+      const scrollTop = event.target.scrollTop
+      clearTimeout(timerRef.current)
+      const parentTop = $domRef.current.getBoundingClientRect().top;
+      const lg = (refStore.current.headingsList || []).length
+      let nextIndex = 0
+      let index = 0
+      for (index; index < lg; index++) {
+        const item = refStore.current.headingsList[index];
+        const newId = toLowerCase(item.value)
+        const $dom = $domRef.current.querySelector(`#${newId}`)
+        let offsetTop = 0
+        if ($dom) {
+          offsetTop = ($dom as any).offsetTop;
+        }
+        if (scrollTop >= (offsetTop - parentTop) || scrollTop >= (offsetTop + parentTop)) {
+          nextIndex = index
+        }
       }
+      const preValue = refStore.current.menuStore.getValue()
+      let item = refStore.current.headingsList[nextIndex > 0 ? nextIndex : 1]
+      if (item && item.value !== preValue) {
+        timerRef.current = setTimeout(() => {
+          refStore.current.menuStore.updateValue(item.value)
+          replaceState(item.value)
+        }, 100)
+      }
+    } catch (err) {
+      console.log("err", err)
     }
-    const preValue = refStore.current.menuStore.getValue()
-    let item = refStore.current.headingsList[nextIndex > 0 ? nextIndex : 1]
-    if (item && item.value !== preValue) {
-      timerRef.current = setTimeout(() => {
-        refStore.current.menuStore.updateValue(item.value)
-        replaceState(item.value)
-      }, 100)
-    }
+
   }
 
   useEffect(() => {
@@ -122,6 +144,7 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
     if ($domRef.current && menuStore && Array.isArray(headingsList) && headingsList.length) {
       const finx = headingsList.find(ite => ite.depth === 2)
       if (finx) {
+        console.log("finx.valu", finx.value)
         menuStore.updateValue(finx.value)
         replaceState(finx.value)
       }
@@ -130,7 +153,8 @@ export const useSimplePreview: SimplePreviewProps["useSimplePreview"] = (props) 
 
   const onChange = (item: any) => {
     if (item && item.value) {
-      navigate(location.pathname + `?anchor=${item.value}&time=${new Date().getTime()}`, { replace: true })
+      console.log("item", item)
+      navigate(location.pathname + `?anchor=${toLowerCase(item.value)}&time=${new Date().getTime()}`, { replace: true })
     }
   }
 
