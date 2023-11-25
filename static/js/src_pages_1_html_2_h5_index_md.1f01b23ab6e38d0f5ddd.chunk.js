@@ -1,0 +1,1 @@
+(self.webpackChunkknowledge_points=self.webpackChunkknowledge_points||[]).push([["src_pages_1_html_2_h5_index_md"],{61204:function(e,n,s){"use strict";s.r(n),s.d(n,{default:function(){return t}});var t={components:{},data:{},source:"# H5 基础\n",headings:[{key:0,value:"H5 基础",depth:1}],headingsList:[{key:0,value:"H5 基础",depth:1}]}}}]);

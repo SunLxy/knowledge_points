@@ -1,0 +1,1 @@
+(self.webpackChunkknowledge_points=self.webpackChunkknowledge_points||[]).push([["src_pages_5_react_1_basic__index_md"],{27400:function(e,n,t){"use strict";t.r(n),t.d(n,{default:function(){return a}});var a={components:{},data:{},source:"# react 基础\n",headings:[{key:0,value:"react 基础",depth:1}],headingsList:[{key:0,value:"react 基础",depth:1}]}}}]);

@@ -1,1 +1,0 @@
-(self.webpackChunkknowledge_points=self.webpackChunkknowledge_points||[]).push([["src_pages_2_css_2_css3_CSS3_index_md"],{99398:function(s,e,n){"use strict";n.r(e),n.d(e,{default:function(){return c}});var c={components:{},data:{},source:"# css3 基础\n",headings:[{depth:1,value:"css3 基础"}],headingsList:[{depth:1,value:"css3 基础"}]}}}]);
