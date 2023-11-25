@@ -34,7 +34,7 @@ const Warp = () => {
     }
   }
   const render = useMemo(() => {
-    return <SimpleMenu isExpand initialValue={location.pathname} onChange={onChange} items={menus} labelKey="name" />
+    return <SimpleMenu sortKey="sort" isExpand initialValue={location.pathname} onChange={onChange} items={menus} labelKey="name" />
   }, [menus])
 
   return <WarpBase>
